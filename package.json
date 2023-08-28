@@ -1,9 +1,12 @@
 {
     "workspaces": [
-        "packages/*"
+        "packages/permissioned-transfer",
+        "packages/demo",
+        "packages/scripts"
     ],
     "private": true,
     "scripts": {
+        "postinstall": "yarn build",
         "build": "yarn workspaces run build",
         "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
         "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check"

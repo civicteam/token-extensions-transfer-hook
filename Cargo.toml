@@ -1,6 +1,7 @@
 [workspace]
 members = [
-    "programs/*"
+    "programs/*",
+    "packages/civic-transfer-hook-cli",
 ]
 
 [profile.release]

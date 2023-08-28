@@ -1,0 +1,12 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "@civic/permissioned-transfer": "*"
+  },
+  "scripts": {
+    "build": "echo noop"
+  }
+}

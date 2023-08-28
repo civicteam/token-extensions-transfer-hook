@@ -8,7 +8,7 @@
 #![cfg_attr(not(test), forbid(unsafe_code))]
 
 pub mod processor;
-pub mod state;
+pub mod instruction;
 
 #[cfg(not(feature = "no-entrypoint"))]
 mod entrypoint;
@@ -16,3 +16,5 @@ mod entrypoint;
 // Export current sdk types for downstream users building with a different sdk
 // version
 pub use solana_program;
+
+solana_program::declare_id!("cto22FHACEgis1zXbY4QJo5Rj6soAQguh1686nZJfNY");

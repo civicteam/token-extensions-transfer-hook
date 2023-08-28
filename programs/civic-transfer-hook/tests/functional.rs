@@ -29,6 +29,14 @@ use {
     },
 };
 
+// tgnuXXNMDLK8dy7Xm1TdeGyc95MDym4bvAQCwcW21Bf
+pub const TEST_GKN: Pubkey = Pubkey::new_from_array([
+    13,  61, 157,  22, 194,  40, 43,  49,
+    99, 194, 219, 188, 124, 255, 19,  26,
+    214, 194,  38, 153,  38, 196, 18, 104,
+    220, 215, 105,  41,  71, 156,  6,  66
+]);
+
 fn setup(program_id: &Pubkey) -> ProgramTest {
     let mut program_test = ProgramTest::new(
         "civic_transfer_hook",
@@ -154,9 +162,10 @@ async fn success_execute() {
     let extra_account_metas = get_extra_account_metas_address(&mint_address, &program_id);
 
     let extra_account_pubkeys = [
-        AccountMeta::new_readonly(sysvar::instructions::id(), false),
-        AccountMeta::new_readonly(mint_authority_pubkey, true),
-        AccountMeta::new(extra_account_metas, false),
+        AccountMeta::new_readonly(TEST_GKN, false)
+        // AccountMeta::new_readonly(sysvar::instructions::id(), false),
+        // AccountMeta::new_readonly(mint_authority_pubkey, true),
+        // AccountMeta::new(extra_account_metas, false),
     ];
     let mut context = program_test.start_with_context().await;
     let rent = context.banks_client.get_rent().await.unwrap();
@@ -198,11 +207,11 @@ async fn success_execute() {
                 &destination,
                 &wallet.pubkey(),
                 &extra_account_metas,
-                &extra_account_pubkeys[..2],
+                &[],
                 0,
             )],
             Some(&context.payer.pubkey()),
-            &[&context.payer, &mint_authority],
+            &[&context.payer],
             context.last_blockhash,
         );
         let error = context
@@ -224,45 +233,6 @@ async fn success_execute() {
     {
         let extra_account_pubkeys = [
             AccountMeta::new_readonly(sysvar::instructions::id(), false),
-            AccountMeta::new_readonly(mint_authority_pubkey, true),
-            AccountMeta::new(wallet.pubkey(), false),
-        ];
-        let transaction = Transaction::new_signed_with_payer(
-            &[execute_with_extra_account_metas(
-                &program_id,
-                &source,
-                &mint_address,
-                &destination,
-                &wallet.pubkey(),
-                &extra_account_metas,
-                &extra_account_pubkeys,
-                0,
-            )],
-            Some(&context.payer.pubkey()),
-            &[&context.payer, &mint_authority],
-            context.last_blockhash,
-        );
-        let error = context
-            .banks_client
-            .process_transaction(transaction)
-            .await
-            .unwrap_err()
-            .unwrap();
-        assert_eq!(
-            error,
-            TransactionError::InstructionError(
-                0,
-                InstructionError::Custom(TransferHookError::IncorrectAccount as u32),
-            )
-        );
-    }
-
-    // fail with not signer
-    {
-        let extra_account_pubkeys = [
-            AccountMeta::new_readonly(sysvar::instructions::id(), false),
-            AccountMeta::new_readonly(mint_authority_pubkey, false),
-            AccountMeta::new(extra_account_metas, false),
         ];
         let transaction = Transaction::new_signed_with_payer(
             &[execute_with_extra_account_metas(
@@ -308,7 +278,7 @@ async fn success_execute() {
                 0,
             )],
             Some(&context.payer.pubkey()),
-            &[&context.payer, &mint_authority],
+            &[&context.payer],
             context.last_blockhash,
         );
         context

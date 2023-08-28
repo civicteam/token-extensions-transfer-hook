@@ -1,0 +1,40 @@
+{
+  "name": "demo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@civic/solana-gateway-react": "^0.16.0",
+    "@identity.com/solana-gatekeeper-lib": "^6.1.0",
+    "@identity.com/solana-gateway-ts": "^0.12.0",
+    "@solana/wallet-adapter-base": "^0.9.23",
+    "@solana/wallet-adapter-react": "^0.15.32",
+    "@solana/wallet-adapter-react-ui": "^0.9.33",
+    "@solana/wallet-adapter-wallets": "^0.19.20",
+    "@solana/web3.js": "^1.77.3",
+    "@types/node": "20.5.6",
+    "@types/react": "18.2.21",
+    "@types/react-dom": "18.2.7",
+    "autoprefixer": "10.4.15",
+    "bs58": "^5.0.0",
+    "clsx": "^2.0.0",
+    "daisyui": "^3.6.3",
+    "eslint": "8.47.0",
+    "eslint-config-next": "13.4.19",
+    "lokijs": "^1.5.12",
+    "next": "13.4.19",
+    "pino-pretty": "^10.2.0",
+    "postcss": "8.4.28",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^4.10.1",
+    "tailwindcss": "3.3.3",
+    "typescript": "5.2.2"
+  }
+}

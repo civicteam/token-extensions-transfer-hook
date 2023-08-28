@@ -2,14 +2,14 @@
 seeds = false
 skip-lint = false
 [programs.localnet]
-civic_transfer_hook = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+civic_transfer_hook = "cto22FHACEgis1zXbY4QJo5Rj6soAQguh1686nZJfNY"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
 cluster = "Localnet"
-wallet = "/Users/daniel/.config/solana/id.json"
+wallet = "~/.config/solana/id.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
@@ -17,3 +17,8 @@ test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
 [[test.genesis]]
 address = "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb"
 program = "tests/fixtures/spl_token_2022.so"
+#program = "tests/fixtures/spl_token_2022_debug.so"
+
+[[test.genesis]]
+address = "gatem74V238djXdzWnJf94Wo1DcnuGkfijbf3AuBhfs"
+program = "tests/fixtures/solana_gateway.so"

@@ -18,7 +18,9 @@ test-sbf = []
 
 [dependencies]
 arrayref = "0.3.7"
+solana-gateway = { version = "0.4.0", features = ["no-entrypoint"] }
 solana-program = "1.16.3"
+spl-discriminator = { git = "https://github.com/solana-labs/solana-program-library" }
 spl-tlv-account-resolution = { git = "https://github.com/solana-labs/solana-program-library" }
 spl-token-2022 = { git = "https://github.com/solana-labs/solana-program-library", features = ["no-entrypoint"] }
 spl-transfer-hook-interface = { git = "https://github.com/solana-labs/solana-program-library" }

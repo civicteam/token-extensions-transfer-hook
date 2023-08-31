@@ -7,17 +7,21 @@
     "private": true,
     "scripts": {
         "postinstall": "yarn build",
-        "build": "yarn workspaces run build",
+        "build": "yarn workspaces run build && anchor build && cargo build",
         "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
-        "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check"
+        "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
+        "start-local-validator": "yarn anchor localnet",
+        "setup-local": "rm -rf .permissioned-token && packages/scripts/setup.sh && yarn ts-node packages/scripts/prepEnv.ts",
+        "start-demo": "yarn workspace demo dev"
     },
     "dependencies": {
-        "@coral-xyz/anchor": "^0.27.0",
+        "@coral-xyz/anchor": "^0.28.0",
         "@solana/spl-token": "^0.3.8",
         "@solana/web3.js": "^1.78.4",
         "commander": "^11.0.0"
     },
     "devDependencies": {
+        "@coral-xyz/anchor-cli": "^0.28.0",
         "@types/bn.js": "^5.1.0",
         "@types/chai": "^4.3.0",
         "@types/mocha": "^9.0.0",

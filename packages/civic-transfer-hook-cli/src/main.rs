@@ -54,11 +54,6 @@ pub fn initialize_extra_account_meta(
         AccountMeta::new_readonly(*mint_authority, true),
         AccountMeta::new_readonly(system_program::id(), false),
     ];
-    // let instruction_discriminator = [0,0,0,0];
-    // let data = [
-    //     &instruction_discriminator[..],
-    //     &gatekeeper_network.to_bytes()[..]
-    // ].concat();
     let data = CivicTransferHookInstruction::InitializeExtraAccountMetas {
         gatekeeper_network: *gatekeeper_network
     }.pack();

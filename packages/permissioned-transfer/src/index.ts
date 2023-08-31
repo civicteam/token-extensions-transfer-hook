@@ -1,10 +1,12 @@
 import {PublicKey, Signer, TransactionInstruction} from "@solana/web3.js";
 import {createTransferCheckedInstruction, TOKEN_2022_PROGRAM_ID} from "@solana/spl-token";
-import {TOKEN_PROGRAM_ID} from "@solana/spl-token/src/constants";
 
 const EXTRA_ACCOUNT_METAS_SEED = "extra-account-metas";
 const CIVIC_TRANSFER_HOOK_PROGRAM_ID = new PublicKey("cto22FHACEgis1zXbY4QJo5Rj6soAQguh1686nZJfNY");
 const GATEWAY_TOKEN_PROGRAM_ID = new PublicKey("gatem74V238djXdzWnJf94Wo1DcnuGkfijbf3AuBhfs");
+
+// Draft Token2022 program ID on devnet
+//const TOKEN_2022_PROGRAM_ID_ALPHA= new PublicKey('t2TnDQYGTVwMjPTdu9CiG15bwrxU3a1aREf7if7qVRr');
 
 const getExtraAccountMetasAddress = (mint: PublicKey) =>
     PublicKey.findProgramAddressSync(

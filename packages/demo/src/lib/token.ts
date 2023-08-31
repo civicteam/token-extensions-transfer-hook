@@ -10,10 +10,12 @@ import {decode} from "bs58";
 import {createTransferInstruction} from "@civic/permissioned-transfer";
 import {
     createAssociatedTokenAccountInstruction,
-    getAssociatedTokenAddressSync,
-    TOKEN_2022_PROGRAM_ID
+    getAssociatedTokenAddressSync, TOKEN_2022_PROGRAM_ID,
 } from "@solana/spl-token";
 import {TOKEN_ACCOUNT_GATEKEEPER_NETWORK} from "@/lib/gateway";
+
+// Draft Token2022 program ID on devnet
+// const TOKEN_2022_PROGRAM_ID_ALPHA= new PublicKey('t2TnDQYGTVwMjPTdu9CiG15bwrxU3a1aREf7if7qVRr');
 
 export const MINT = new PublicKey(process.env.NEXT_PUBLIC_MINT!);
 
@@ -55,6 +57,7 @@ export const transferTo = async (from: PublicKey, recipient: PublicKey, payer: P
     })
 
     const createTokenAccountIx = await createTokenAccountInstruction(recipient, payer, connection);
+    console.log("createTokenAccountIx", createTokenAccountIx)
 
     const { blockhash } = await connection.getLatestBlockhash();
     const message = new TransactionMessage({
@@ -67,8 +70,7 @@ export const transferTo = async (from: PublicKey, recipient: PublicKey, payer: P
 }
 
 export const airdropTo = async (recipient: PublicKey, connection: Connection): Promise<string> => {
-    const connection2 = new Connection('http://localhost:8899', 'confirmed');
-    const tx = await transferTo(AIRDROP_AUTHORITY.publicKey, recipient, AIRDROP_AUTHORITY.publicKey, connection2);
+    const tx = await transferTo(AIRDROP_AUTHORITY.publicKey, recipient, AIRDROP_AUTHORITY.publicKey, connection);
     tx.sign([AIRDROP_AUTHORITY]);
-    return connection2.sendTransaction(tx, {skipPreflight: true});
+    return connection.sendTransaction(tx);
 }

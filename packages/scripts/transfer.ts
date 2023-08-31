@@ -125,7 +125,8 @@ const transfer = async (options: Options) => {
         const txSig = await connection.sendTransaction(tx)
         console.log(`Transaction ${txSig} sent`);
     } catch (e) {
-        console.log(e.logs)
+        console.log("Error sending transaction", tx)
+        console.log(e)
     }
 }
 

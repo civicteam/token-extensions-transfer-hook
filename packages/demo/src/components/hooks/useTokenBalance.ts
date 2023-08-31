@@ -16,7 +16,9 @@ export const useTokenBalance = (mint: PublicKey) => {
         if (!wallet.publicKey || !tokenAccount) return;
 
         const notify = () => {
+            console.log("notify")
             connection.getTokenAccountBalance(tokenAccount).then((balance) => {
+                console.log("balance", balance.value.amount)
                 setBalance(Number(balance.value.amount));
             }).catch(console.error);
         }

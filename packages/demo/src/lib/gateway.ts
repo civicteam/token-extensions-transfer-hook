@@ -24,7 +24,7 @@ export const issuePassToTokenAccount = async (owner: PublicKey): Promise<void> =
 export const hasPass = async (owner: PublicKey, connection: Connection): Promise<boolean> => {
     const tokenAccount = getTokenAccount(owner);
 
-    const basePass = await findGatewayToken(connection, tokenAccount, TOKEN_ACCOUNT_GATEKEEPER_NETWORK);
+    const pass = await findGatewayToken(connection, tokenAccount, TOKEN_ACCOUNT_GATEKEEPER_NETWORK);
 
-    return !!basePass;
+    return !!pass;
 }

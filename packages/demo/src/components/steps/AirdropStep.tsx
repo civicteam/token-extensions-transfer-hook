@@ -23,7 +23,7 @@ export const AirdropStep: FC = ({  }) => {
         // console.log(Buffer.from(tx.serialize()).toString('hex'));
         // const txSig = await wallet.sendTransaction(tx, connection);
         console.log("Airdrop tx sig:", txSig);
-        toast.success(<a href={`https://solana.fm/tx/${txSig}?cluster=devnet-qn1`} target="_blank">Airdrop complete. Explorer</a>);
+        toast.success(<a href={`https://explorer.solana.com/tx/${txSig}?cluster=custom&customUrl=http%3A%2F%2Flocalhost%3A8899`} target="_blank">Airdrop complete. Explorer</a>);
     }
 
     return (

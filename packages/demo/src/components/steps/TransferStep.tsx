@@ -1,41 +1,32 @@
 'use client';
-import {FC, useEffect, useMemo, useRef} from "react";
+import {FC, useEffect, useMemo, useState} from "react";
 import {useTokenBalance} from "@/components/hooks/useTokenBalance";
-import {airdropTo, MINT, transferTo} from "@/lib/token";
-import {hasPass, issuePassToTokenAccount} from "@/lib/gateway";
+import {MINT, transferTo} from "@/lib/token";
+import {hasPass} from "@/lib/gateway";
 import {useConnection, useWallet} from "@solana/wallet-adapter-react";
 import {PublicKey} from "@solana/web3.js";
-import {createTransferInstruction} from "@civic/permissioned-transfer";
 import toast from "react-hot-toast";
 
 export const TransferStep: FC = ({  }) => {
     const wallet = useWallet();
     const { connection } = useConnection();
     const balance = useTokenBalance(MINT);
-    const recipientRef = useRef<HTMLInputElement>(null);
+    const [recipientStr, setRecipientStr] = useState<string>();
+    const [recipient, setRecipient] = useState<PublicKey>();
 
-    const isValidRecipient = useMemo(() => {
-        if (!recipientRef || balance === 0) return false;
+    useEffect(() => {
+        if (!recipientStr) setRecipient(undefined);
 
         try {
-            new PublicKey(recipientRef.current?.value || '');
+            setRecipient(new PublicKey(recipientStr || ''));
         } catch (e) {
-            return false;
+            setRecipient(undefined);
         }
-
-        return true;
-    }, [recipientRef.current?.value])
+    }, [recipientStr]);
+    const transferAllowed = useMemo(() => !!recipient && balance > 0, [recipient, balance]);
 
     const transfer = async () => {
-        if (!wallet.publicKey || !recipientRef) return;
-
-        let recipient: PublicKey;
-        try {
-            recipient = new PublicKey(recipientRef.current?.value || '');
-        } catch (e) {
-            alert("Invalid recipient address");
-            return;
-        }
+        if (!wallet.publicKey || !recipient) return;
 
         if (!(await hasPass(recipient, connection))) {
             alert("Recipient does not have a pass");
@@ -46,13 +37,13 @@ export const TransferStep: FC = ({  }) => {
 
         const txSig = await wallet.sendTransaction(tx, connection);
         console.log("Transfer tx sig:", txSig);
-        toast.success(<a href={`https://solana.fm/tx/${txSig}?cluster=devnet-qn1`} target="_blank">Transaction complete. Explorer</a>);
+        toast.success(<a href={`https://explorer.solana.com/tx/${txSig}?cluster=custom&customUrl=http%3A%2F%2Flocalhost%3A8899`} target="_blank">Transaction complete. Explorer</a>);
     }
 
     return (
         <div>
-            <input ref={recipientRef} type="text" placeholder="to" className="input input-bordered w-full max-w-xs" />
-            <button className="btn btn-primary" onClick={transfer} disabled={!isValidRecipient}>Transfer</button>
+            <input onChange={e => setRecipientStr(e.target.value)} type="text" placeholder="to" className="input input-bordered w-full max-w-xs" />
+            <button className="btn btn-primary" onClick={transfer} disabled={!transferAllowed}>Transfer</button>
         </div>
     )
 }

@@ -1,0 +1,42 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Header: Transferring Permissioned Tokens using Token2022 and Civic Pass
+
+Alice -> Wallet: Send 1 PERM to Bob
+activate Wallet
+Wallet -> Token2022: Get Mint
+Wallet <-- Token2022: Mint
+note right: Mint has a transfer hook
+Wallet -> Token2022: Get ExtraAccountMetas
+Wallet <-- Token2022: ExtraAccountMetas
+Wallet -> Wallet: create Transfer instruction
+Wallet -> Wallet: resolve ExtraAccountMetas (Offchain Helper)
+note right
+    - Gatekeeper Network
+    - Gateway Program
+    - Gateway Token (derived from above + recipient token account)
+end note
+Wallet -> Wallet: add extra account metas to Transfer ix
+Wallet -> Token2022: sign & send Transfer ix
+activate Token2022
+Token2022 -> Token2022: change balances of sender & recipient
+Token2022 -> Token2022: resolve ExtraAccountMetas (Onchain Helper)
+note left
+If the resolved accounts
+do not match the passed-in
+accounts, fail.
+end note
+Token2022 -> CivicTransferHook: <<execute>>
+activate CivicTransferHook
+CivicTransferHook -> Gateway: validate gateway token
+CivicTransferHook <-- Gateway: valid
+Token2022 <-- CivicTransferHook: complete
+deactivate CivicTransferHook
+Wallet <-- Token2022: complete
+deactivate Token2022
+Alice <-- Wallet: complete
+deactivate Wallet
+@enduml

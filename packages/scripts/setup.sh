@@ -5,10 +5,16 @@
 set -eu
 
 TOKEN_2022_PROGRAM=TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb
+# Draft deployment of Token2022 on devnet
+#TOKEN_2022_PROGRAM=t2TnDQYGTVwMjPTdu9CiG15bwrxU3a1aREf7if7qVRr
 TRANSFER_HOOK_PROGRAM_ID=cto22FHACEgis1zXbY4QJo5Rj6soAQguh1686nZJfNY
 
 # Switch to localnet
+NETWORK=localnet
 solana config set --url http://127.0.0.1:8899
+# Switch to devnet
+#NETWORK=devnet
+#solana config set --url devnet
 
 # If no keys are created, then create the folder and keys
 if [ ! -d .permissioned-token ]; then
@@ -43,7 +49,7 @@ GKN=$(solana address -k gatekeeper-network.json)
 
 # Requires the latest built version of the spl token cli
 # should be changed for others
-SPL_TOKEN_CLI_PATH=../../../solana-labs/solana-program-library/target/debug/spl-token
+SPL_TOKEN_CLI_PATH=../tests/fixtures/spl-token
 alias token=$SPL_TOKEN_CLI_PATH
 alias civic-permissioned-token=../target/debug/civic-transfer-hook-cli
 
@@ -52,13 +58,14 @@ alias civic-permissioned-token=../target/debug/civic-transfer-hook-cli
 export NODE_OPTIONS=--dns-result-order=ipv4first
 
 # Set up the gatekeeper network
-gateway add-gatekeeper -n gatekeeper-network.json -c localnet $GATEKEEPER
+gateway add-gatekeeper -n gatekeeper-network.json -c $NETWORK $GATEKEEPER
 
 # Switch to the token mint authority
 solana config set --keypair $PWD/authority.json
 
 # Set up the token mint
 token create-token --program-id $TOKEN_2022_PROGRAM --mint-authority $AUTHORITY --transfer-hook $TRANSFER_HOOK_PROGRAM_ID mint.json
+# token set-transfer-hook-program --program-id $TOKEN_2022_PROGRAM $MINT $TRANSFER_HOOK_PROGRAM_ID
 civic-permissioned-token set $MINT $GKN
 
 echo "Creating token accounts"
@@ -76,4 +83,4 @@ VALID_RECIPIENT_TOKEN_ACCOUNT=$(token accounts --owner $VALID_RECIPIENT \
   --program-id $TOKEN_2022_PROGRAM \
   --output json | jq -r --arg mint $MINT '.accounts[] | select(.mint=$mint) | .address')
 echo "Issuing gateway token to $VALID_RECIPIENT_TOKEN_ACCOUNT"
-gateway issue -n $GKN -c localnet -g gatekeeper.json $VALID_RECIPIENT_TOKEN_ACCOUNT
+gateway issue -n $GKN -c $NETWORK -g gatekeeper.json $VALID_RECIPIENT_TOKEN_ACCOUNT

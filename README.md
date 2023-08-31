@@ -32,6 +32,8 @@ Go to http://localhost:3000
 
 ### Executing the demo
 
+![Demo](./doc/screenshot.png)
+
 1. Connect a wallet 
 2. Get a pass on devnet
 3. Click airdrop to receive a token (see the explorer link to show the transaction including the transfer hook CPI)

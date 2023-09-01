@@ -23,6 +23,7 @@ export default function RootLayout({
       <body suppressHydrationWarning={true} className={inter.className}>
       <Toaster
           position="bottom-right"
+          toastOptions={{duration: 5000}}
           reverseOrder={false}
       />
       <WalletWrapper>

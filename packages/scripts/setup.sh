@@ -58,7 +58,7 @@ alias civic-permissioned-token=../target/debug/civic-transfer-hook-cli
 export NODE_OPTIONS=--dns-result-order=ipv4first
 
 # Set up the gatekeeper network
-gateway add-gatekeeper -n gatekeeper-network.json -c $NETWORK $GATEKEEPER
+yarn gateway add-gatekeeper -n $PWD/gatekeeper-network.json -c $NETWORK $GATEKEEPER
 
 # Switch to the token mint authority
 solana config set --keypair $PWD/authority.json
@@ -83,4 +83,4 @@ VALID_RECIPIENT_TOKEN_ACCOUNT=$(token accounts --owner $VALID_RECIPIENT \
   --program-id $TOKEN_2022_PROGRAM \
   --output json | jq -r --arg mint $MINT '.accounts[] | select(.mint=$mint) | .address')
 echo "Issuing gateway token to $VALID_RECIPIENT_TOKEN_ACCOUNT"
-gateway issue -n $GKN -c $NETWORK -g gatekeeper.json $VALID_RECIPIENT_TOKEN_ACCOUNT
+yarn gateway issue -n $GKN -c $NETWORK -g $PWD/gatekeeper.json $VALID_RECIPIENT_TOKEN_ACCOUNT

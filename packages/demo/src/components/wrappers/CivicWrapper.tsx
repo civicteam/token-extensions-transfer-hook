@@ -7,7 +7,7 @@ import {BASE_GATEKEEPER_NETWORK} from "@/lib/gateway";
 import {clusterApiUrl, Connection} from "@solana/web3.js";
 
 export const CivicWrapper: FC<PropsWithChildren> = ({ children }) => {
-    const devnetConnection = useMemo(() => new Connection(clusterApiUrl("devnet")), []);
+    const devnetConnection = useMemo(() => new Connection(clusterApiUrl("devnet"), "confirmed"), []);
     const wallet = useWallet();
     return (
         <GatewayProvider

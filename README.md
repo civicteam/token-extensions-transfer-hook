@@ -62,6 +62,13 @@ Note: Pasting your own address in step 8 will not work, as self-transfers are sh
 
 Do this: https://solana.stackexchange.com/a/6989
 
+```shell
+brew install gcc@12
+sudo echo 'export CPATH="/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include"' >> ~/.zshrc
+```
+
+then open a new shell
+
 ### If you see: 
 
 ```

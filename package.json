@@ -6,8 +6,8 @@
     ],
     "private": true,
     "scripts": {
-        "postinstall": "yarn workspace @civic/permissioned-transfer build",
-        "build": "yarn workspaces run build && anchor build && cargo build",
+        "postinstall": "yarn workspace @civic/permissioned-transfer build && yarn build:program",
+        "build:program": "anchor build && cargo build",
         "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
         "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",
         "start-local-validator": "yarn anchor localnet",

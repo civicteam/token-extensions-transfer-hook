@@ -58,6 +58,11 @@ export const transferTo = async (from: PublicKey, recipient: PublicKey, payer: P
 
     const createTokenAccountIx = await createTokenAccountInstruction(recipient, payer, connection);
     console.log("createTokenAccountIx", createTokenAccountIx)
+    console.log("Destination token account", toTokenAccount.toBase58());
+    console.log("Source token account", fromTokenAccount.toBase58());
+    console.log("Authority", from.toBase58());
+    console.log("MINT", MINT.toBase58());
+
 
     const { blockhash } = await connection.getLatestBlockhash();
     const message = new TransactionMessage({
@@ -65,6 +70,9 @@ export const transferTo = async (from: PublicKey, recipient: PublicKey, payer: P
         recentBlockhash: blockhash,
         instructions: [createTokenAccountIx, transferIx].filter(ix => ix) as TransactionInstruction[],
     }).compileToV0Message();
+
+    console.log("message", message)
+    console.log("transferIx", transferIx);
 
     return new VersionedTransaction(message);
 }

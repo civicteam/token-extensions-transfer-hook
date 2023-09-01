@@ -68,11 +68,11 @@ export const createTransferInstruction = ({
     );
 
     transferInstruction.keys.push(
-        ...extraAccounts.map((account) => ({pubkey: account, isSigner: false, isWritable: true}))
+        ...extraAccounts.map((account) => ({pubkey: account, isSigner: false, isWritable: false}))
     );
 
     transferInstruction.keys.push(
-        {pubkey: CIVIC_TRANSFER_HOOK_PROGRAM_ID, isSigner: false, isWritable: true}
+        {pubkey: CIVIC_TRANSFER_HOOK_PROGRAM_ID, isSigner: false, isWritable: false}
     );
 
     return transferInstruction;

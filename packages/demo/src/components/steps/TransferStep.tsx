@@ -27,17 +27,22 @@ export const TransferStep: FC = ({  }) => {
 
     const transfer = async () => {
         if (!wallet.publicKey || !recipient) return;
-
-        if (!(await hasPass(recipient, connection))) {
+        const skipUIPassCheck = true;
+        if (!skipUIPassCheck && !(await hasPass(recipient, connection))) {
             alert("Recipient does not have a pass");
             return;
         }
 
         const tx = await transferTo(wallet.publicKey, recipient, wallet.publicKey, connection);
 
-        const txSig = await wallet.sendTransaction(tx, connection);
-        console.log("Transfer tx sig:", txSig);
-        toast.success(<a href={`https://explorer.solana.com/tx/${txSig}?cluster=custom&customUrl=http%3A%2F%2Flocalhost%3A8899`} target="_blank">Transaction complete. Explorer</a>);
+        try {
+            const txSig = await wallet.sendTransaction(tx, connection, {skipPreflight: true});
+            console.log("Transfer tx sig:", txSig);
+            toast.success(<a href={`https://explorer.solana.com/tx/${txSig}?cluster=custom&customUrl=http%3A%2F%2Flocalhost%3A8899`} target="_blank">Transaction complete. Explorer</a>);
+        } catch (e){
+            console.log("Transfer failed:",e);
+            toast.error("Transaction failed!")
+        }
     }
 
     return (

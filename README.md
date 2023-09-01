@@ -7,11 +7,20 @@
 - Solana v1.6.10+
 - Rust v1.52.1+
 - Node v18 & yarn v1.22+
+- Anchor CLI v0.18.0+
 
 To install Solana:
 
 ```shell
 sh -c "$(curl -sSfL https://release.solana.com/v1.16.11/install)"
+```
+
+To install Anchor:
+
+```shell
+cargo install --git https://github.com/coral-xyz/anchor avm --locked --force
+avm install latest
+avm use latest
 ```
 
 ### Run locally

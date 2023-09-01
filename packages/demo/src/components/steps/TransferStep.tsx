@@ -4,7 +4,7 @@ import {useTokenBalance} from "@/components/hooks/useTokenBalance";
 import {MINT, transferTo} from "@/lib/token";
 import {hasPass} from "@/lib/gateway";
 import {useConnection, useWallet} from "@solana/wallet-adapter-react";
-import {PublicKey} from "@solana/web3.js";
+import {LAMPORTS_PER_SOL, PublicKey} from "@solana/web3.js";
 import toast from "react-hot-toast";
 
 export const TransferStep: FC = ({  }) => {
@@ -31,6 +31,13 @@ export const TransferStep: FC = ({  }) => {
         if (!(await hasPass(recipient, connection))) {
             alert("Recipient does not have a pass");
             return;
+        }
+
+        if (await (connection.getBalance(wallet.publicKey)) < 10_000_000) {
+            console.log("Sender has insufficient SOL. Airdropping to sender...");
+            const txSig = await connection.requestAirdrop(wallet.publicKey, 1 * LAMPORTS_PER_SOL);
+            await connection.confirmTransaction(txSig, "confirmed");
+            console.log("Airdrop tx sig:", txSig);
         }
 
         const tx = await transferTo(wallet.publicKey, recipient, wallet.publicKey, connection);

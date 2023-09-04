@@ -6,7 +6,7 @@
     ],
     "private": true,
     "scripts": {
-        "postinstall": "yarn workspace @civic/permissioned-transfer build && yarn build:program",
+        "postinstall": "yarn workspace @civic/permissioned-transfer build",
         "build:program": "anchor build && cargo build",
         "lint:fix": "prettier */*.js \"*/**/*{.js,.ts}\" -w",
         "lint": "prettier */*.js \"*/**/*{.js,.ts}\" --check",

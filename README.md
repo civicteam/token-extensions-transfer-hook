@@ -27,6 +27,7 @@ avm use latest
 
 ```shell
 yarn
+yarn build:program
 yarn start-local-validator
 ```
 

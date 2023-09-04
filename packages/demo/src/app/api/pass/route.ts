@@ -25,9 +25,12 @@ export async function POST(request: NextRequest) {
         throw new Error(`No base pass found for ${owner.toBase58()}`);
     }
 
+    console.log("Issuing gateway token to ", tokenAccount.toBase58());
     const gt = await gatekeeperService.issue(tokenAccount);
 
     if (!gt) throw new Error(`Failed to issue gateway token for ${owner.toBase58()}`);
+
+    console.log("Gateway token: ", gt.publicKey.toBase58());
 
     return NextResponse.json({ gatewayToken: gt.publicKey.toBase58()  })
 }

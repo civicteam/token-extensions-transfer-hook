@@ -62,6 +62,9 @@ export const transferTo = async (from: PublicKey, recipient: PublicKey, payer: P
     console.log("Source token account", fromTokenAccount.toBase58());
     console.log("Authority", from.toBase58());
     console.log("MINT", MINT.toBase58());
+    transferIx.keys.map((key, i) => {
+        console.log("Key: ", i, key.pubkey.toBase58());
+    });
 
 
     const { blockhash } = await connection.getLatestBlockhash();

@@ -10,11 +10,11 @@ TOKEN_2022_PROGRAM=TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb
 TRANSFER_HOOK_PROGRAM_ID=cto22FHACEgis1zXbY4QJo5Rj6soAQguh1686nZJfNY
 
 # Switch to localnet
-NETWORK=localnet
-solana config set --url http://127.0.0.1:8899
+#NETWORK=localnet
+#solana config set --url http://127.0.0.1:8899
 # Switch to devnet
-#NETWORK=devnet
-#solana config set --url devnet
+NETWORK=devnet
+solana config set --url devnet
 
 # If no keys are created, then create the folder and keys
 if [ ! -d .permissioned-token ]; then

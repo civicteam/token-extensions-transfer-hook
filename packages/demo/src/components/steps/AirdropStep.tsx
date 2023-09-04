@@ -1,5 +1,5 @@
 'use client';
-import {FC} from "react";
+import {FC, useState} from "react";
 import {useTokenBalance} from "@/components/hooks/useTokenBalance";
 import {airdropTo, MINT} from "@/lib/token";
 import {hasPass, issuePassToTokenAccount} from "@/lib/gateway";
@@ -10,26 +10,34 @@ export const AirdropStep: FC = ({  }) => {
     const wallet = useWallet();
     const { connection } = useConnection();
     const balance = useTokenBalance(MINT);
+    const [loading, setLoading] = useState(false);
 
-    const issuePass = async () => {
+    const airdrop = async () => {
         if (!wallet.publicKey) return;
-        if (!(await hasPass(wallet.publicKey, connection))) {
-            console.log("Issuing pass");
-            await issuePassToTokenAccount(wallet.publicKey)
-        }
+        try {
+            setLoading(true);
 
-        console.log("Airdropping tokens");
-        const txSig = await airdropTo(wallet.publicKey, connection);
-        // console.log(Buffer.from(tx.serialize()).toString('hex'));
-        // const txSig = await wallet.sendTransaction(tx, connection);
-        console.log("Airdrop tx sig:", txSig);
-        toast.success(<a href={`https://explorer.solana.com/tx/${txSig}?cluster=custom&customUrl=http%3A%2F%2Flocalhost%3A8899`} target="_blank">Airdrop complete. Explorer</a>);
+            if (!(await hasPass(wallet.publicKey, connection))) {
+                console.log("Issuing pass");
+                await issuePassToTokenAccount(wallet.publicKey)
+            }
+
+            console.log("Airdropping tokens");
+            const txSig = await airdropTo(wallet.publicKey, connection);
+            console.log("Airdrop tx sig:", txSig);
+            toast.success(<a href={`https://explorer.solana.com/tx/${txSig}?cluster=devnet`} target="_blank">Airdrop complete. Explorer</a>);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
         <div className="flex flex-col items-center">
             <div className="flex h-12 items-center">Balance: {balance}</div>
-            <button className="btn btn-primary" onClick={issuePass}>Airdrop</button>
+            <button className="btn btn-primary" onClick={airdrop}>
+                Airdrop
+                {loading && <span className="loading loading-spinner loading-sm"></span>}
+            </button>
         </div>
     )
 }

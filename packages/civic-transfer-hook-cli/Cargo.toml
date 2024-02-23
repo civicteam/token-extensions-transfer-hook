@@ -7,14 +7,14 @@ edition = "2021"
 civic-transfer-hook = { path = "../../programs/civic-transfer-hook", features = ["no-entrypoint"] }
 clap = { version = "3", features = ["cargo"] }
 futures-util = "0.3.19"
-solana-clap-v3-utils = "=1.16.3"
-solana-cli-config = "=1.16.3"
-solana-client = "=1.16.3"
-solana-logger = "=1.16.3"
-solana-remote-wallet = "=1.16.3"
-solana-sdk = "=1.16.3"
+solana-clap-v3-utils = "1.17.16"
+solana-cli-config = "1.17.16"
+solana-client = "1.17.16"
+solana-logger = "1.17.16"
+solana-remote-wallet = "1.17.16"
+solana-sdk = "1.17.16"
 spl-transfer-hook-interface = { git = "https://github.com/solana-labs/solana-program-library" }
 tokio = { version = "1", features = ["full"] }
 
 [dev-dependencies]
-solana-test-validator = "=1.16.3"
+solana-test-validator = "1.17.16"

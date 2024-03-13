@@ -10,9 +10,7 @@ import {
     PhantomWalletAdapter,
     SolflareWalletAdapter,
     TorusWalletAdapter,
-    BackpackWalletAdapter,
 } from '@solana/wallet-adapter-wallets';
-import { clusterApiUrl } from '@solana/web3.js';
 import {FC, PropsWithChildren, useMemo} from 'react';
 
 const WalletWrapper: FC<PropsWithChildren> = ({ children }) => {
@@ -20,7 +18,6 @@ const WalletWrapper: FC<PropsWithChildren> = ({ children }) => {
     const wallets = useMemo(
         () => [
             new PhantomWalletAdapter(),
-            new BackpackWalletAdapter(),
             new SolflareWalletAdapter(),
             new TorusWalletAdapter(),
         ],

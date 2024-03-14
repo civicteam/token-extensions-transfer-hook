@@ -9,7 +9,7 @@ import {getTokenAccount, MINT} from "@/lib/token";
 const rpc = process.env.NEXT_RPC || clusterApiUrl('devnet');
 
 const connection = new Connection(rpc, 'confirmed');
-// TODO TEMP while working on localhost
+// Needed to allow running the demo on localhost
 const devnetConnection = new Connection(clusterApiUrl('devnet'), 'confirmed');
 const authority = Keypair.fromSecretKey(decode(process.env.NEXT_GATEKEEPER_AUTHORITY!));
 const gatekeeperService = new SimpleGatekeeperService(connection, TOKEN_ACCOUNT_GATEKEEPER_NETWORK, authority);

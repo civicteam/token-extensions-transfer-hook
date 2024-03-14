@@ -1,3 +1,5 @@
+use std::rc::Rc;
+use solana_clap_v3_utils::input_parsers::parse_url_or_moniker;
 use solana_sdk::instruction::{AccountMeta, Instruction};
 use solana_sdk::pubkey::Pubkey;
 use solana_sdk::{system_instruction, system_program};
@@ -8,7 +10,7 @@ use {
     solana_clap_v3_utils::{
         input_parsers::pubkey_of,
         input_validators::{
-            is_url_or_moniker, is_valid_pubkey, is_valid_signer, normalize_to_url_if_moniker,
+            is_valid_pubkey, is_valid_signer, normalize_to_url_if_moniker,
         },
         keypair::DefaultSigner,
     },
@@ -22,7 +24,7 @@ use {
         signature::{Signature, Signer},
         transaction::Transaction,
     },
-    std::{process::exit, sync::Arc},
+    std::process::exit,
 };
 use civic_transfer_hook::instruction::CivicTransferHookInstruction;
 
@@ -154,7 +156,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .value_name("URL")
                 .takes_value(true)
                 .global(true)
-                .validator(|s| is_url_or_moniker(s))
+                .validator(|s| parse_url_or_moniker(s))
                 .help("JSON RPC URL for the cluster [default: value from configuration file]"),
         )
         .subcommand(
@@ -177,7 +179,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .get_matches();
 
     let (command, matches) = app_matches.subcommand().unwrap();
-    let mut wallet_manager: Option<Arc<RemoteWalletManager>> = None;
+    let mut wallet_manager: Option<Rc<RemoteWalletManager>> = None;
 
     let config = {
         let cli_config = if let Some(config_file) = matches.value_of("config_file") {

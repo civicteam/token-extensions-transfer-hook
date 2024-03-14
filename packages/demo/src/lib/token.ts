@@ -52,7 +52,7 @@ export const transferTo = async (from: PublicKey, recipient: PublicKey, payer: P
         toTokenAccount,
         authority: from,
         gatekeeperNetwork: TOKEN_ACCOUNT_GATEKEEPER_NETWORK,
-        amount: 1,
+        amount: 10**9,
         decimals: 9
     })
 

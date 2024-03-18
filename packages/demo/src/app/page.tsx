@@ -18,11 +18,10 @@ export default function Home() {
                 </div>
                 <div className="flex flex-row items-center justify-center">
                     <img src={'/civic-logo-orange.svg'} className="w-48 h-48 pr-4" />
-                    <div className="text-2xl">Token2022 Transfer Hook Demo</div>
+                    <div className="text-2xl">Token-Extensions Transfer Hook Demo</div>
                 </div>
                 <div className="flex flex-row items-center justify-center">
                     <img src={'/solana.svg'} className="h-4 pr-4" />
-                    <div className="text-md">Hacker House Berlin 2023</div>
                 </div>
             </div>
             <div className="flex flex-col md:flex-row w-screen md:w-2/3 items-center justify-center">
@@ -48,7 +47,7 @@ export default function Home() {
                 </Step>
             </div>
             <div className="flex justify-end items-end w-screen">
-                Created by <a className="pl-1 pr-1" href="https://www.linkedin.com/in/kelleherdaniel/">Daniel Kelleher</a> © 2023 Civic Technologies, Inc.
+                Created by <a className="pl-1 pr-1" href="https://www.linkedin.com/in/kelleherdaniel/">Daniel Kelleher</a> © 2024 Civic Technologies, Inc.
             </div>
         </main>
     )
